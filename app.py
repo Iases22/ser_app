@@ -6,8 +6,44 @@ import numpy as np
 import matplotlib.pyplot as plt
 import soundfile
 import librosa
-import ser
-from ser.data import extract_features
+from PIL import Image
+
+st.set_page_config(layout="wide")
+
+# image = Image.open('Sersa_logo.jfif') #logo
+# st.image(image, width = 340) #logo width
+'''
+# SERSA - Speech Emotion Recognizer & Song Advisor
+
+'''
+
+st.sidebar.header('About this project')  #sidebar title
+st.sidebar.markdown(
+    "**What is SERSA?**  \nSERSA was developed as a deep learning project to identify emotions from speech. SERSA takes a sample of speech as input, analyzes it based on thousands of previous examples of speech and returns the primary emotion it detected in the voice sample. Based on the ouput, SERSA then provides a list of songs scraped from the Spotify API which 'match' the emotion."
+)
+
+st.sidebar.markdown(
+    "**Why is speech emotion recognition important?**  \nSpeech emotion recognition (SER) is notoriously difficult to do, not just for machines but also for us humans! The applications of SER are varied - from business (improving customer service), to healthcare (telemedicine and supporting people affected by alexithymia) to our personal lives."
+)
+st.sidebar.markdown(
+    '''**What was our approach?** \nUsing a Multilayer Perceptron (MLP) Classifier we were able to train a model on the RAVDESS and TESS datasets and achieve XX percent accuracy. We also tried using CNN and RNN models but they were less effective.'''
+)
+
+st.sidebar.markdown(
+    "*Sidenotes*:  \nEmotion recognition is an intrinsically subjective task (i.e. what one person considers angry another might consider sad). SERSA was trained on a specific set of voice samples and will therefore extrapolate based on those - thus, you may find SERSA's predictions to be odd at times - that's the nature of the game!"
+)
+
+st.subheader(
+    ":musical_note: Upload your voice recording here using .wav format")
+uploaded_file = st.file_uploader("Select file from your directory")
+
+if uploaded_file is not None:
+    audio_bytes = uploaded_file.read()
+    st.audio(audio_bytes)
+
+    with open("pip.wav", "wb") as file:  #######to be removed and added to package (predict.py) later
+        file.write(audio_bytes)  #######
+
 
 
 ########just for testing until we get the api -- will be removed later#########
@@ -68,22 +104,6 @@ def predict_proba(observed_emotions, x_pred_preprocessed, model_path='MLP_model.
 ######################
 
 
-'''
-# SERSA - Speech Emotion Recognizer & Song Advisor
-
-'''
-
-st.subheader("Upload your voice recording here")
-uploaded_file = st.file_uploader("Select file from your directory")
-if uploaded_file is not None:
-    audio_bytes = uploaded_file.read()
-    st.audio(audio_bytes)
-
-    with open("pip.wav", "wb") as file:   #######to be removed and added to package (predict.py) later
-        file.write(audio_bytes)           #######
-
-
-
 # url = ''
 
 button = st.button('click to predict the emotion')
@@ -94,38 +114,13 @@ if button:
 
     # response = request.post(url, audio_bytes)
     # response.json()
+    # response = {'calm': 63.91, 'happy': 0.00, 'sad': 4.95, 'angry': 30.99, 'fearful':0.14, 'disgust': 0.01}
 
     observed_emotions = ['calm', 'happy', 'sad', 'angry', 'fearful', 'disgust']
     x_pred_preprocessed = x_pred_preprocessing('pip.wav')
     prediction = return_predict(x_pred_preprocessed)
     st.write(prediction)
     predicted_probas = predict_proba(observed_emotions, x_pred_preprocessed)
-
     hpp = predicted_probas.assign(hack='').set_index('hack')
     st.write(hpp)
     st.bar_chart(predicted_probas)
-
-
-    # fig = predicted_probas.plot.pie(subplots=True)
-    # st.pyplot(fig)
-
-
-
-    # Pie chart, where the slices will be ordered and plotted counter-clockwise:
-    # labels = observed_emotions   #predicted_probas.columns
-    # st.write(labels)
-    # pp_list = predicted_probas.values.tolist()
-    # sizes = pp_list
-    # st.write(sizes)
-    # explode = (0.1, 0.1, 0, 0, 0, 0)  # only "explode" the 2nd slice (i.e. 'Hogs')
-
-    # fig1, ax1 = plt.subplots()
-    # ax1.pie(sizes,
-    #         explode=explode,
-    #         labels=labels,
-    #         autopct='%1.1f%%',
-    #         shadow=True,
-    #         startangle=90)
-    # ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
-
-    # st.pyplot(fig1)
