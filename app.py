@@ -6,7 +6,7 @@ import requests
 
 '''
 
-st.subheader("Upload your voice recording here")
+st.subheader(":musical_note: Upload your voice recording here")
 uploaded_file = st.file_uploader("Select file from your directory")
 if uploaded_file is not None:
     audio_bytes = uploaded_file.read()
