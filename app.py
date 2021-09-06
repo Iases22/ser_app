@@ -15,7 +15,8 @@ st.set_page_config(layout="wide")
 '''
 # SERSA - Speech Emotion Recognizer & Song Advisor
 
-'''
+st.set_page_config(layout="wide")
+
 
 st.sidebar.header('About this project')  #sidebar title
 st.sidebar.markdown(
@@ -104,6 +105,7 @@ def predict_proba(observed_emotions, x_pred_preprocessed, model_path='MLP_model.
 ######################
 
 
+
 # url = ''
 
 button = st.button('click to predict the emotion')
@@ -124,3 +126,7 @@ if button:
     hpp = predicted_probas.assign(hack='').set_index('hack')
     st.write(hpp)
     st.bar_chart(predicted_probas)
+
+
+
+
