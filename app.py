@@ -14,8 +14,8 @@ st.set_page_config(layout="wide")
 # st.image(image, width = 340) #logo width
 '''
 # SERSA - Speech Emotion Recognizer & Song Advisor
+'''
 
-st.set_page_config(layout="wide")
 
 
 st.sidebar.header('About this project')  #sidebar title
@@ -126,7 +126,3 @@ if button:
     hpp = predicted_probas.assign(hack='').set_index('hack')
     st.write(hpp)
     st.bar_chart(predicted_probas)
-
-
-
-
