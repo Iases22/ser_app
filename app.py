@@ -29,3 +29,14 @@ if uploaded_file is not None:
     audio_bytes = uploaded_file.read()
     st.audio(audio_bytes)
 
+
+# url = ''
+
+button = st.button('click to predict the emotion')
+
+if button:
+    # print is visible in the server output, not in the page
+    print('button clicked!')
+
+    # response = request.post(url, audio_bytes)
+    # response.json()
