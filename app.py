@@ -38,75 +38,6 @@ if uploaded_file is not None:
     audio_bytes = uploaded_file.read()
     st.audio(audio_bytes)
 
-    with open(
-            "pip.wav", "wb"
-    ) as file:  #######to be removed and added to package (predict.py) later
-        file.write(audio_bytes)  #######
-
-
-########just for testing until we get the api -- will be removed later#########
-def extract_features(file_name, mfcc, chroma, mel, temp):
-    with soundfile.SoundFile(file_name) as sound_file:
-        X = sound_file.read(dtype="float32")
-        sample_rate = sound_file.samplerate
-        if chroma:
-            stft = np.abs(librosa.stft(X))
-        result = np.array([])
-        if mfcc:
-            mfccs = np.mean(librosa.feature.mfcc(y=X,
-                                                 sr=sample_rate,
-                                                 n_mfcc=40).T,
-                            axis=0)
-            result = np.hstack((result, mfccs))
-        if chroma:
-            chroma = np.mean(librosa.feature.chroma_stft(S=stft,
-                                                         sr=sample_rate).T,
-                             axis=0)
-            result = np.hstack((result, chroma))
-        if mel:
-            mel = np.mean(librosa.feature.melspectrogram(X, sr=sample_rate).T,
-                          axis=0)
-            result = np.hstack((result, mel))
-        if temp:
-            temp = np.mean(librosa.feature.tempogram(y=X, sr=sample_rate).T,
-                           axis=0)
-            result = np.hstack((result, temp))
-    return result
-
-
-#Load an audio file and transform it
-def x_pred_preprocessing(audio_path):
-    x_pred_preprocessed = extract_features(audio_path,
-                                           mfcc=True,
-                                           chroma=False,
-                                           mel=True,
-                                           temp=True)
-    x_pred_preprocessed = x_pred_preprocessed.reshape(1, 552)
-    return x_pred_preprocessed
-
-
-#Predict the emotion
-def return_predict(x_pred_preprocessed, model_path='MLP_model.joblib'):
-    model = joblib.load(model_path)
-    prediction = model.predict(x_pred_preprocessed)
-    return prediction[0]
-
-
-#Return a dataframe giving the predicted probabilities for each emotion in observed_emotions
-def predict_proba(observed_emotions,
-                  x_pred_preprocessed,
-                  model_path='MLP_model.joblib'):
-    model = joblib.load(model_path)
-    emotion_list = observed_emotions
-    emotion_list.sort()
-    model_pred_prob = pd.DataFrame(
-        (model.predict_proba(x_pred_preprocessed) * 100).round(2),
-        columns=emotion_list)
-    return model_pred_prob
-
-
-################################################################################
-
 emoji_dict = {
     'calm': '😌',
     'happy': '😊',
@@ -129,15 +60,7 @@ if button:
     response_0 = requests.post(url, files=files)
     predicted_emotion = response_0.json()['prediction']
 
-    #st.write(result['prediction'])
-    """
-
-
-
-
-
-    """
-
+    #hard-coded response to test the predict probabilities feature, will remove later
     response = {
         'calm': 0.99,
         'happy': 0.00,
@@ -165,7 +88,7 @@ if button:
                                            columns=ranked_emotions)
 
     #picking out the predicted emotion and displaying it with an emoji
-    #predicted_emotion =#ranked_emotions[0]
+    #predicted_emotion = ranked_emotions[0]
     st.header(f'**{predicted_emotion}** ' + emoji_dict[predicted_emotion])
     """
 
