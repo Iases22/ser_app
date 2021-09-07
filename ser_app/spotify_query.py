@@ -4,7 +4,7 @@ import datetime
 from urllib.parse import urlencode
 
 client_id = 'a2db305d6a8a4ebd8191989f7f400119'
-client_secret = '60456ef0016e4762b59deab63c1c05e3'
+client_secret = API_KEY
 
 class SpotifyAPI(object):
     access_token = None
@@ -132,9 +132,6 @@ class SpotifyAPI(object):
 #Function that makes the spotify query: given an emotoni it returns a list
 # of song names and a list of urls
 def get_spotify_links(emotion):
-
-    client_id = 'a2db305d6a8a4ebd8191989f7f400119'
-    client_secret = '60456ef0016e4762b59deab63c1c05e3'
 
     spotify = SpotifyAPI(client_id, client_secret)
 
