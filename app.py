@@ -1,12 +1,8 @@
 import streamlit as st
 import requests
-import joblib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import soundfile
-import librosa
-from PIL import Image
 from ser_app import spotify_query
 
 st.set_page_config(layout="wide")
