@@ -2,10 +2,12 @@ import requests
 import base64
 import datetime
 from urllib.parse import urlencode
+from decouple import config
+
+API_KEY = config('API_KEY')
 
 client_id = 'a2db305d6a8a4ebd8191989f7f400119'
 client_secret = API_KEY
-
 
 class SpotifyAPI(object):
     access_token = None
