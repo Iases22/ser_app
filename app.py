@@ -54,29 +54,30 @@ if button:
 
     files = {'file': audio_bytes}
     response_0 = requests.post(url, files=files)
-    #predicted_emotion = response_0.json()['emotion'][0]
+    predicted_emotion = response_0.json()['emotion']['0']
+    probas = response_0.json()['probability']
 
     #hard-coded response to test the predict probabilities feature, will remove later
-    response = {
-        'calm': 0.99,
-        'happy': 0.00,
-        'sad': 100.00,
-        'angry': 63.91,
-        'fearful': 0.14,
-        'disgust': 4.95
-    }
+    # probas = {
+    #     'calm': 0.99,
+    #     'happy': 0.00,
+    #     'sad': 100.00,
+    #     'angry': 63.91,
+    #     'fearful': 0.14,
+    #     'disgust': 4.95
+    # }
 
-    #putting response dictionary into a dataframe
-    v = list(response.values())
-    c = list(response.keys())
+    #putting probas dictionary into a dataframe
+    v = list(probas.values())
+    c = list(probas.keys())
     predicted_probas = pd.DataFrame([v], columns=c)
 
     #creating a ranked dictionary and putting it into a dataframe
-    sort_response = sorted(response.items(), key=lambda x: x[1], reverse=True)
+    sort_probas = sorted(probas.items(), key=lambda x: x[1], reverse=True)
 
     ranked_emotions = []
     ranked_values = []
-    for i in sort_response:
+    for i in sort_probas:
         ranked_emotions.append(i[0])
         ranked_values.append(i[1])
 
@@ -84,7 +85,7 @@ if button:
                                            columns=ranked_emotions)
 
     #picking out the predicted emotion and displaying it with an emoji
-    predicted_emotion = ranked_emotions[0]
+    #predicted_emotion = ranked_emotions[0]
     st.header(f'**{predicted_emotion}** ' + emoji_dict[predicted_emotion])
     """
 
