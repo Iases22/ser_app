@@ -43,7 +43,7 @@ emoji_dict = {
     'disgust': '🤮'
 }
 
-url = 'https://emotion-ser-k7ur66xaxa-ew.a.run.app/predict/'
+url = 'https://emotion-ser2-k7ur66xaxa-ew.a.run.app/predict/'
 #url = 'https://api-btzfftkewq-ew.a.run.app/predict/'
 
 button = st.button('click to predict the emotion')
@@ -54,13 +54,13 @@ if button:
 
     files = {'file': audio_bytes}
     response_0 = requests.post(url, files=files)
-    predicted_emotion = response_0.json()['prediction']
+    #predicted_emotion = response_0.json()['emotion'][0]
 
     #hard-coded response to test the predict probabilities feature, will remove later
     response = {
         'calm': 0.99,
         'happy': 0.00,
-        'sad': 0.00,
+        'sad': 100.00,
         'angry': 63.91,
         'fearful': 0.14,
         'disgust': 4.95
@@ -84,7 +84,7 @@ if button:
                                            columns=ranked_emotions)
 
     #picking out the predicted emotion and displaying it with an emoji
-    #predicted_emotion = ranked_emotions[0]
+    predicted_emotion = ranked_emotions[0]
     st.header(f'**{predicted_emotion}** ' + emoji_dict[predicted_emotion])
     """
 
@@ -114,7 +114,7 @@ if button:
             continue
         plt.text(value, index, str(value), fontsize=5)
 
-    #st.pyplot(fig)
+    st.pyplot(fig)
     """
 
     """
