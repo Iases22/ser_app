@@ -1,15 +1,37 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from streamlit_player import st_player
+# from streamlit_player import st_player
 import requests
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from ser_app import spotify_query
-import webbrowser
+# import webbrowser
 
 
 st.set_page_config(layout="wide")
+
+CSS = """
+.css-1aumxhk {
+background-color: #D4B49D;
+background-image: none;
+}
+h2 {
+    color: #00008B;
+}
+h3 {
+    color: #00008B;
+}
+.stApp {
+    background-color: #D4B49D;
+    background-size: cover;
+}
+"""
+st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+# st.sidebar.markdown(
+#     """ <style> .sidebar .sidebar-content { background-image: linear-gradient(#2e7bcf,#2e7bcf); color: #D4B49D; } </style> """,
+#     unsafe_allow_html=True,
+# )
 
 '''
 # SERSA - Speech Emotion Recognizer & Song Advisor
@@ -91,7 +113,7 @@ if button:
 
     #picking out the predicted emotion and displaying it with an emoji
     #predicted_emotion = ranked_emotions[0]
-    st.header(f'**{predicted_emotion}** ' + emoji_dict[predicted_emotion])
+    st.header(f'SERSA thinks you\'re **{predicted_emotion}** ' + emoji_dict[predicted_emotion])
     """
 
     """
@@ -102,7 +124,7 @@ if button:
     reverse_ranked_emotions.reverse()
     reverse_ranked_values.reverse()
 
-    fig, ax = plt.subplots(figsize=(5, 1))
+    fig, ax = plt.subplots(figsize=(8, 1))
     right_side = ax.spines["right"]
     top_side = ax.spines['top']
     right_side.set_visible(False)
@@ -129,15 +151,14 @@ if button:
 
     st.subheader('Recommended songs:')
     for i in range(5):
-        link = spotify_urls[i]
-        #st.write(link)
-        st.write(
-            f'{spotify_artist[i]} - {spotify_tracknames[i]}   {spotify_urls[i]}'
+        # st.write(
+        #     f'{spotify_artist[i]} - {spotify_tracknames[i]}   {spotify_urls[i]}'
+        # )
+        # link = spotify_urls[i]
+        st.markdown(
+            f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
         )
-        st.markdown("<a href=link>Select</a>",
-                    unsafe_allow_html=True)
 
-
-
-# link = '[GitHub](http://github.com)'
-# st.markdown(link, unsafe_allow_html=True)
+        # components.html(
+        #     f'''<iframe src='{spotify_urls[i]}' width='100%' height='380' frameBorder='0' allowtransparency='true allow='encrypted-media'></iframe>'''
+        # )
