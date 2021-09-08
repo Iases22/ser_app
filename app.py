@@ -1,11 +1,16 @@
 import streamlit as st
+import streamlit.components.v1 as components
+from streamlit_player import st_player
 import requests
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from ser_app import spotify_query
+import webbrowser
+
 
 st.set_page_config(layout="wide")
+
 '''
 # SERSA - Speech Emotion Recognizer & Song Advisor
 '''
@@ -124,6 +129,15 @@ if button:
 
     st.subheader('Recommended songs:')
     for i in range(5):
+        link = spotify_urls[i]
+        #st.write(link)
         st.write(
             f'{spotify_artist[i]} - {spotify_tracknames[i]}   {spotify_urls[i]}'
         )
+        st.markdown("<a href=link>Select</a>",
+                    unsafe_allow_html=True)
+
+
+
+# link = '[GitHub](http://github.com)'
+# st.markdown(link, unsafe_allow_html=True)
