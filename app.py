@@ -8,14 +8,9 @@ import matplotlib.pyplot as plt
 from ser_app import spotify_query
 # import webbrowser
 
-
 st.set_page_config(layout="wide")
 
 CSS = """
-.css-1aumxhk {
-background-color: #D4B49D;
-background-image: none;
-}
 h2 {
     color: #00008B;
 }
@@ -28,15 +23,13 @@ h3 {
 }
 """
 st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
-# st.sidebar.markdown(
-#     """ <style> .sidebar .sidebar-content { background-image: linear-gradient(#2e7bcf,#2e7bcf); color: #D4B49D; } </style> """,
-#     unsafe_allow_html=True,
-# )
+
 
 '''
 # SERSA - Speech Emotion Recognizer & Song Advisor
 '''
 
+# sidebar
 st.sidebar.header('About this project')  #sidebar title
 st.sidebar.markdown(
     "**What is SERSA?**  \nSERSA was developed as a deep learning project to identify emotions from speech. SERSA takes a sample of speech as input, analyzes it based on thousands of previous examples of speech and returns the primary emotion it detected in the voice sample. Based on the ouput, SERSA then provides a list of songs scraped from the Spotify API which 'match' the emotion."
@@ -52,6 +45,7 @@ st.sidebar.markdown(
 st.sidebar.markdown(
     "*Sidenotes*:  \nEmotion recognition is an intrinsically subjective task (i.e. what one person considers angry another might consider sad). SERSA was trained on a specific set of voice samples and will therefore extrapolate based on those - thus, you may find SERSA's predictions to be odd at times - that's the nature of the game!"
 )
+#
 
 st.subheader(
     ":musical_note: Upload your voice recording here using .wav format")
@@ -84,16 +78,6 @@ if button:
     predicted_emotion = response_0.json()['emotion']['0']
     probas = response_0.json()['probability']
 
-    #hard-coded response to test the predict probabilities feature, will remove later
-    # probas = {
-    #     'calm': 0.99,
-    #     'happy': 0.00,
-    #     'sad': 100.00,
-    #     'angry': 63.91,
-    #     'fearful': 0.14,
-    #     'disgust': 4.95
-    # }
-
     #putting probas dictionary into a dataframe
     v = list(probas.values())
     c = list(probas.keys())
@@ -112,8 +96,13 @@ if button:
                                            columns=ranked_emotions)
 
     #picking out the predicted emotion and displaying it with an emoji
-    #predicted_emotion = ranked_emotions[0]
-    st.header(f'SERSA thinks you\'re **{predicted_emotion}** ' + emoji_dict[predicted_emotion])
+    if predicted_emotion=='disgust':
+        emotion_word='disgusted'
+    else:
+        emotion_word=predicted_emotion
+
+    st.header(f'SERSA thinks you\'re **{emotion_word}** ' + emoji_dict[predicted_emotion])
+
     """
 
     """
@@ -160,5 +149,5 @@ if button:
         )
 
         # components.html(
-        #     f'''<iframe src='{spotify_urls[i]}' width='100%' height='380' frameBorder='0' allowtransparency='true allow='encrypted-media'></iframe>'''
+        #     f'''<iframe src={spotify_urls[i]} width='100%' height='380' frameBorder='0' allowtransparency='true' allow='encrypted-media'></iframe>'''
         # )
