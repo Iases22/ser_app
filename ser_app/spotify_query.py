@@ -4,10 +4,8 @@ import datetime
 from urllib.parse import urlencode
 from decouple import config
 
-API_KEY = config('API_KEY')
-
-client_id = 'a2db305d6a8a4ebd8191989f7f400119'
-client_secret = API_KEY
+client_id = config('SPOTIFY_CLIENT_ID')
+client_secret = config('SPOTIFY_CLIENT_SECRET')
 
 class SpotifyAPI(object):
     access_token = None
@@ -136,8 +134,8 @@ class SpotifyAPI(object):
 # of song names and a list of urls
 def get_spotify_links(emotion):
 
-    client_id = 'a2db305d6a8a4ebd8191989f7f400119'
-    client_secret = API_KEY
+    # client_id = config('SPOTIFY_CLIENT_ID')
+    # client_secret = config('SPOTIFY_CLIENT_SECRET')
 
     spotify = SpotifyAPI(client_id, client_secret)
 
