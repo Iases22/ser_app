@@ -136,6 +136,9 @@ class SpotifyAPI(object):
 # of song names and a list of urls
 def get_spotify_links(emotion):
 
+    client_id = 'a2db305d6a8a4ebd8191989f7f400119'
+    client_secret = API_KEY
+
     spotify = SpotifyAPI(client_id, client_secret)
 
     playlist_ids = {
