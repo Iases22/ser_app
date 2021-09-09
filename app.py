@@ -80,7 +80,6 @@ emoji_dict = {
 }
 
 url = 'https://emotion-ser2-k7ur66xaxa-ew.a.run.app/predict/'
-#url = 'https://api-btzfftkewq-ew.a.run.app/predict/'
 
 button = st.button('click to predict the emotion')
 
@@ -153,7 +152,6 @@ if button:
 
         """
 
-
         # recommending songs
         spotify_artist, spotify_tracknames, spotify_urls = spotify_query.get_spotify_links(
             predicted_emotion)
@@ -163,9 +161,10 @@ if button:
             st.markdown(
                 f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
             )
-            # components.html(
-            #     f"""<iframe src={spotify_urls[i]} width='100%' height='380' frameBorder='0' allowtransparency='true' allow='encrypted-media'></iframe>"""
-            # )
+            track_url = spotify_urls[i]
+            sul = track_url.split('/')
+            embed_url = sul[0]+'//'+sul[2]+'/embed/'+sul[3]+'/'+sul[4]
+            components.iframe(embed_url)
 
     else:
         st.write('You need to upload a file!')
