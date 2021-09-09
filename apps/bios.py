@@ -5,7 +5,7 @@ import base64
 
 def app():
 
-    # main page and sidebar background images
+    # page and sidebar background images
     main_bg = "background5.jpg"
     main_bg_ext = "jpg"
     side_bg = "background4.jpg"
@@ -37,7 +37,7 @@ def app():
     for i in team.keys():
         filename = f'bios/team{i}.jpg'
         fig.add_subplot(2, 2, int(i))
-        plt.title(team[i])
+        plt.title(team[i], fontsize=6)
         image = plt.imread(filename)
         plt.axis('off')
         plt.imshow(image)
