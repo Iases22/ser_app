@@ -26,10 +26,10 @@ def app():
     st.write('SERSA Team')
 
     team = {
-        '01': 'Filipo',
-        '02': 'Ia',
-        '03': 'Michael',
-        '04': 'Pankaj'
+        '01': 'Filippo Colonna',
+        '02': 'Ia Vaquilar',
+        '03': 'Michael Michael',
+        '04': 'Pankaj Patel'
     }
 
     fig = plt.figure()
