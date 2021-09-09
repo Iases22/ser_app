@@ -1,6 +1,7 @@
 """Keeps track of multiple Streamlit applications as multipages.
 """
 import streamlit as st
+import base64
 
 
 class MultiApp:
@@ -22,8 +23,17 @@ class MultiApp:
         # SERSA - Speech Emotion Recognizer & Song Advisor
         '''
 
-
-        # sidebar
+        # side_bg = "background4.jpg"
+        # side_bg_ext = "jpg"
+        # st.markdown(f"""
+        #     <style>
+        #     .css-17eq0hr {{
+        #         background: url(data:image/{side_bg_ext};base64,{base64.b64encode(open(side_bg, "rb").read()).decode()})
+        #     }}
+        #     </style>
+        #     """,
+        #             unsafe_allow_html=True)
+        # # sidebar
         st.sidebar.header('About this project')  #sidebar title
         st.sidebar.markdown(
             "**What is SERSA?**  \nSERSA was developed as a deep learning project to identify emotions from speech. SERSA takes a sample of speech as input, analyzes it based on thousands of previous examples of speech and returns the primary emotion it detected in the voice sample. Based on the ouput, SERSA then provides a list of songs scraped from the Spotify API which 'match' the emotion."
