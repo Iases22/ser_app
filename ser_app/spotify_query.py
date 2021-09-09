@@ -130,12 +130,12 @@ class SpotifyAPI(object):
         return self.base_search(query_params)
 
 
-#Function that makes the spotify query: given an emotoni it returns a list
+#Function that makes the spotify query: given an emotion it returns a list
 # of song names and a list of urls
 def get_spotify_links(emotion):
 
-    # client_id = config('SPOTIFY_CLIENT_ID')
-    # client_secret = config('SPOTIFY_CLIENT_SECRET')
+    client_id = config('SPOTIFY_CLIENT_ID')
+    client_secret = config('SPOTIFY_CLIENT_SECRET')
 
     spotify = SpotifyAPI(client_id, client_secret)
 

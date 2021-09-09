@@ -10,19 +10,19 @@ from ser_app import spotify_query
 
 st.set_page_config(layout="wide")
 
-CSS = """
-h2 {
-    color: #00008B;
-}
-h3 {
-    color: #00008B;
-}
-.stApp {
-    background-color: #D4B49D;
-    background-size: cover;
-}
-"""
-st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+# CSS = """
+# h2 {
+#     color: #00008B;
+# }
+# h3 {
+#     color: #00008B;
+# }
+# .stApp {
+#     background-color: #D4B49D;
+#     background-size: cover;
+# }
+# """
+# st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
 
 '''
@@ -45,7 +45,8 @@ st.sidebar.markdown(
 st.sidebar.markdown(
     "*Sidenotes*:  \nEmotion recognition is an intrinsically subjective task (i.e. what one person considers angry another might consider sad). SERSA was trained on a specific set of voice samples and will therefore extrapolate based on those - thus, you may find SERSA's predictions to be odd at times - that's the nature of the game!"
 )
-#
+######
+
 
 st.subheader(
     ":musical_note: Upload your voice recording here using .wav format")
@@ -54,6 +55,7 @@ uploaded_file = st.file_uploader("Select file from your directory")
 if uploaded_file is not None:
     audio_bytes = uploaded_file.read()
     st.audio(audio_bytes)
+
 
 emoji_dict = {
     'calm': '😌',
@@ -135,15 +137,14 @@ if button:
     """
 
     """
+
+
+    # recommending songs
     spotify_artist, spotify_tracknames, spotify_urls = spotify_query.get_spotify_links(
         predicted_emotion)
 
     st.subheader('Recommended songs:')
     for i in range(5):
-        # st.write(
-        #     f'{spotify_artist[i]} - {spotify_tracknames[i]}   {spotify_urls[i]}'
-        # )
-        # link = spotify_urls[i]
         st.markdown(
             f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
         )
