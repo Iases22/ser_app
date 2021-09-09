@@ -1,6 +1,7 @@
 import streamlit as st
 from pages import MultiApp
 from apps import sersa, features, bios
+import librosa
 
 app = MultiApp()
 
