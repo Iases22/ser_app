@@ -19,18 +19,18 @@ st.set_page_config(layout="wide")
 #     color: #00008B;
 # }
 # .stApp {
-#     background-color: #D4B49D;
+#     background-color: F6F6EB;
 #     background-size: cover;
 # }
 # """
 # st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
 
-# # sidebar color
+# sidebar color
 # st.markdown(
 #     """
 # <style>
 # .css-17eq0hr {
-#     background-color: #D4B49D;
+#     background-color: #a5ace7;
 # }
 # </style>
 # """,
@@ -60,7 +60,7 @@ st.sidebar.markdown(
 )
 ######
 
-
+audio_bytes = None
 st.subheader(
     ":musical_note: Upload your voice recording here using .wav format")
 uploaded_file = st.file_uploader("Select file from your directory")
@@ -88,77 +88,84 @@ if button:
     # print is visible in the server output, not in the page
     print('button clicked!')
 
-    files = {'file': audio_bytes}
-    response_0 = requests.post(url, files=files)
-    predicted_emotion = response_0.json()['emotion']['0']
-    probas = response_0.json()['probability']
+    if audio_bytes is not None:
 
-    #putting probas dictionary into a dataframe
-    v = list(probas.values())
-    c = list(probas.keys())
-    predicted_probas = pd.DataFrame([v], columns=c)
+        files = {'file': audio_bytes}
+        response_0 = requests.post(url, files=files)
+        predicted_emotion = response_0.json()['emotion']['0']
+        probas = response_0.json()['probability']
 
-    #creating a ranked dictionary and putting it into a dataframe
-    sort_probas = sorted(probas.items(), key=lambda x: x[1], reverse=True)
+        #putting probas dictionary into a dataframe
+        v = list(probas.values())
+        c = list(probas.keys())
+        predicted_probas = pd.DataFrame([v], columns=c)
 
-    ranked_emotions = []
-    ranked_values = []
-    for i in sort_probas:
-        ranked_emotions.append(i[0])
-        ranked_values.append(i[1])
+        #creating a ranked dictionary and putting it into a dataframe
+        sort_probas = sorted(probas.items(), key=lambda x: x[1], reverse=True)
 
-    ranked_predicted_probas = pd.DataFrame([ranked_values],
-                                           columns=ranked_emotions)
+        ranked_emotions = []
+        ranked_values = []
+        for i in sort_probas:
+            ranked_emotions.append(i[0])
+            ranked_values.append(i[1])
 
-    #picking out the predicted emotion and displaying it with an emoji
-    if predicted_emotion=='disgust':
-        emotion_word='disgusted'
+        ranked_predicted_probas = pd.DataFrame([ranked_values],
+                                            columns=ranked_emotions)
+
+        #picking out the predicted emotion and displaying it with an emoji
+        if predicted_emotion=='disgust':
+            emotion_word='disgusted'
+        else:
+            emotion_word=predicted_emotion
+
+        st.header(f'SERSA thinks you\'re **{emotion_word}** ' + emoji_dict[predicted_emotion])
+
+        """
+
+        """
+
+        #displaying predicted probabilities of each emotion as a bar chart
+        reverse_ranked_emotions = ranked_emotions
+        reverse_ranked_values = ranked_values
+        reverse_ranked_emotions.reverse()
+        reverse_ranked_values.reverse()
+
+        fig, ax = plt.subplots(figsize=(8, 1))
+        right_side = ax.spines["right"]
+        top_side = ax.spines['top']
+        right_side.set_visible(False)
+        top_side.set_visible(False)
+
+        ax.barh(reverse_ranked_emotions,
+                reverse_ranked_values,
+                color=['r', 'y', 'g', 'b', 'c', 'm'])
+
+        ax.set_yticklabels(reverse_ranked_emotions, fontsize=5)
+        ax.set_xticklabels(list(range(0, 100, 10)), fontsize=5)
+
+        for index, value in enumerate(reverse_ranked_values):
+            if value < 0.1:
+                continue
+            plt.text(value, index, str(value), fontsize=5)
+
+        st.pyplot(fig)
+        """
+
+        """
+
+
+        # recommending songs
+        spotify_artist, spotify_tracknames, spotify_urls = spotify_query.get_spotify_links(
+            predicted_emotion)
+
+        st.subheader('Recommended songs:')
+        for i in range(5):
+            st.markdown(
+                f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
+            )
+            # components.html(
+            #     f"""<iframe src={spotify_urls[i]} width='100%' height='380' frameBorder='0' allowtransparency='true' allow='encrypted-media'></iframe>"""
+            # )
+
     else:
-        emotion_word=predicted_emotion
-
-    st.header(f'SERSA thinks you\'re **{emotion_word}** ' + emoji_dict[predicted_emotion])
-
-    """
-
-    """
-
-    #displaying predicted probabilities of each emotion as a bar chart
-    reverse_ranked_emotions = ranked_emotions
-    reverse_ranked_values = ranked_values
-    reverse_ranked_emotions.reverse()
-    reverse_ranked_values.reverse()
-
-    fig, ax = plt.subplots(figsize=(8, 1))
-    right_side = ax.spines["right"]
-    top_side = ax.spines['top']
-    right_side.set_visible(False)
-    top_side.set_visible(False)
-
-    ax.barh(reverse_ranked_emotions,
-            reverse_ranked_values,
-            color=['r', 'y', 'g', 'b', 'c', 'm'])
-
-    ax.set_yticklabels(reverse_ranked_emotions, fontsize=5)
-    ax.set_xticklabels(list(range(0, 100, 10)), fontsize=5)
-
-    for index, value in enumerate(reverse_ranked_values):
-        if value < 0.1:
-            continue
-        plt.text(value, index, str(value), fontsize=5)
-
-    st.pyplot(fig)
-    """
-
-    """
-
-
-    # recommending songs
-    spotify_artist, spotify_tracknames, spotify_urls = spotify_query.get_spotify_links(
-        predicted_emotion)
-
-    st.subheader('Recommended songs:')
-    for i in range(5):
-        st.markdown(
-            f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
-        )
-        components.iframe(spotify_urls[i])
+        st.write('You need to upload a file!')
