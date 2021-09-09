@@ -1,15 +1,35 @@
 import streamlit as st
+import streamlit.components.v1 as components
+# from streamlit_player import st_player
 import requests
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from ser_app import spotify_query
+# import webbrowser
 
 st.set_page_config(layout="wide")
+
+# CSS = """
+# h2 {
+#     color: #00008B;
+# }
+# h3 {
+#     color: #00008B;
+# }
+# .stApp {
+#     background-color: #D4B49D;
+#     background-size: cover;
+# }
+# """
+# st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
+
 '''
 # SERSA - Speech Emotion Recognizer & Song Advisor
 '''
 
+# sidebar
 st.sidebar.header('About this project')  #sidebar title
 st.sidebar.markdown(
     "**What is SERSA?**  \nSERSA was developed as a deep learning project to identify emotions from speech. SERSA takes a sample of speech as input, analyzes it based on thousands of previous examples of speech and returns the primary emotion it detected in the voice sample. Based on the ouput, SERSA then provides a list of songs scraped from the Spotify API which 'match' the emotion."
@@ -25,6 +45,8 @@ st.sidebar.markdown(
 st.sidebar.markdown(
     "*Sidenotes*:  \nEmotion recognition is an intrinsically subjective task (i.e. what one person considers angry another might consider sad). SERSA was trained on a specific set of voice samples and will therefore extrapolate based on those - thus, you may find SERSA's predictions to be odd at times - that's the nature of the game!"
 )
+######
+
 
 st.subheader(
     ":musical_note: Upload your voice recording here using .wav format")
@@ -33,6 +55,7 @@ uploaded_file = st.file_uploader("Select file from your directory")
 if uploaded_file is not None:
     audio_bytes = uploaded_file.read()
     st.audio(audio_bytes)
+
 
 emoji_dict = {
     'calm': '😌',
@@ -57,16 +80,6 @@ if button:
     predicted_emotion = response_0.json()['emotion']['0']
     probas = response_0.json()['probability']
 
-    #hard-coded response to test the predict probabilities feature, will remove later
-    # probas = {
-    #     'calm': 0.99,
-    #     'happy': 0.00,
-    #     'sad': 100.00,
-    #     'angry': 63.91,
-    #     'fearful': 0.14,
-    #     'disgust': 4.95
-    # }
-
     #putting probas dictionary into a dataframe
     v = list(probas.values())
     c = list(probas.keys())
@@ -85,8 +98,13 @@ if button:
                                            columns=ranked_emotions)
 
     #picking out the predicted emotion and displaying it with an emoji
-    #predicted_emotion = ranked_emotions[0]
-    st.header(f'**{predicted_emotion}** ' + emoji_dict[predicted_emotion])
+    if predicted_emotion=='disgust':
+        emotion_word='disgusted'
+    else:
+        emotion_word=predicted_emotion
+
+    st.header(f'SERSA thinks you\'re **{emotion_word}** ' + emoji_dict[predicted_emotion])
+
     """
 
     """
@@ -97,7 +115,7 @@ if button:
     reverse_ranked_emotions.reverse()
     reverse_ranked_values.reverse()
 
-    fig, ax = plt.subplots(figsize=(5, 1))
+    fig, ax = plt.subplots(figsize=(8, 1))
     right_side = ax.spines["right"]
     top_side = ax.spines['top']
     right_side.set_visible(False)
@@ -119,11 +137,18 @@ if button:
     """
 
     """
+
+
+    # recommending songs
     spotify_artist, spotify_tracknames, spotify_urls = spotify_query.get_spotify_links(
         predicted_emotion)
 
     st.subheader('Recommended songs:')
     for i in range(5):
-        st.write(
-            f'{spotify_artist[i]} - {spotify_tracknames[i]}   {spotify_urls[i]}'
+        st.markdown(
+            f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
         )
+
+        # components.html(
+        #     f'''<iframe src={spotify_urls[i]} width='100%' height='380' frameBorder='0' allowtransparency='true' allow='encrypted-media'></iframe>'''
+        # )
