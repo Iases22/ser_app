@@ -9,6 +9,7 @@ numpy
 pandas
 scikit-learn
 matplotlib
+librosa
 
 # tests/linter
 black
@@ -33,3 +34,4 @@ termcolor
 streamlit
 requests
 python-decouple
+base64
