@@ -9,6 +9,10 @@ import base64
 
 def app():
 
+    # '''
+    # # SERSA - Speech Emotion Recognizer & Song Advisor
+    # '''
+
     # main page and sidebar background images
     main_bg = "background5.jpg"
     main_bg_ext = "jpg"
@@ -29,6 +33,8 @@ def app():
     '''
     # SERSA - Speech Emotion Recognizer & Song Advisor
     '''
+    st.title('SERSA - Speech Emotion Recognizer & Song Advisor')
+
     audio_bytes = None
     st.subheader(
         ":musical_note: Upload your voice recording here using .wav format")

@@ -18,21 +18,10 @@ class MultiApp:
                                format_func=lambda app: app['title'])
         app['function']()
 
-
-        # sidebar color
-        # st.markdown(
-        #     """
-        # <style>
-        # .css-17eq0hr {
-        #     background-color: #a5ace7;
-        # }
-        # </style>
-        # """,
-        #     unsafe_allow_html=True,
-        # )
         '''
         # SERSA - Speech Emotion Recognizer & Song Advisor
         '''
+
 
         # sidebar
         st.sidebar.header('About this project')  #sidebar title
