@@ -1,29 +1,31 @@
 import streamlit as st
 import streamlit.components.v1 as components
-# from streamlit_player import st_player
 import requests
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from ser_app import spotify_query
-# import webbrowser
+import base64
 
 def app():
-    #st.set_page_config(layout="wide")
-    # # main page color
-    # CSS = """
-    # h2 {
-    #     color: #00008B;
-    # }
-    # h3 {
-    #     color: #00008B;
-    # }
-    # .stApp {
-    #     background-color: F6F6EB;
-    #     background-size: cover;
-    # }
-    # """
-    # st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
+    # main page and sidebar background images
+    main_bg = "background5.jpg"
+    main_bg_ext = "jpg"
+    side_bg = "background4.jpg"
+    side_bg_ext = "jpg"
+    st.markdown(f"""
+        <style>
+        .reportview-container {{
+            background: url(data:image/{main_bg_ext};base64,{base64.b64encode(open(main_bg, "rb").read()).decode()})
+        }}
+        .css-17eq0hr {{
+            background: url(data:image/{side_bg_ext};base64,{base64.b64encode(open(side_bg, "rb").read()).decode()})
+        }}
+        </style>
+        """,
+                unsafe_allow_html=True)
+
     '''
     # SERSA - Speech Emotion Recognizer & Song Advisor
     '''
