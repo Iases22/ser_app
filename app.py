@@ -10,6 +10,7 @@ from ser_app import spotify_query
 
 st.set_page_config(layout="wide")
 
+# # main page color
 # CSS = """
 # h2 {
 #     color: #00008B;
@@ -23,6 +24,18 @@ st.set_page_config(layout="wide")
 # }
 # """
 # st.write(f'<style>{CSS}</style>', unsafe_allow_html=True)
+
+# # sidebar color
+# st.markdown(
+#     """
+# <style>
+# .css-17eq0hr {
+#     background-color: #D4B49D;
+# }
+# </style>
+# """,
+#     unsafe_allow_html=True,
+# )
 
 
 '''
@@ -148,7 +161,4 @@ if button:
         st.markdown(
             f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
         )
-
-        # components.html(
-        #     f'''<iframe src={spotify_urls[i]} width='100%' height='380' frameBorder='0' allowtransparency='true' allow='encrypted-media'></iframe>'''
-        # )
+        components.iframe(spotify_urls[i])
