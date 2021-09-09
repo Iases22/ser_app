@@ -9,10 +9,6 @@ import base64
 
 def app():
 
-    # '''
-    # # SERSA - Speech Emotion Recognizer & Song Advisor
-    # '''
-
     # main page and sidebar background images
     main_bg = "background5.jpg"
     main_bg_ext = "jpg"
@@ -34,6 +30,7 @@ def app():
     # SERSA - Speech Emotion Recognizer & Song Advisor
     '''
     st.title('SERSA - Speech Emotion Recognizer & Song Advisor')
+    #st.header('*(She’s Everyone’s Reliable Song Assistant)*')
 
     audio_bytes = None
     st.subheader(
@@ -132,9 +129,9 @@ def app():
 
             st.subheader('Recommended songs:')
             for i in range(5):
-                st.markdown(
-                    f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
-                )
+                # st.markdown(
+                #     f"[{spotify_artist[i]} - {spotify_tracknames[i]}]({spotify_urls[i]})"
+                # )
                 track_url = spotify_urls[i]
                 sul = track_url.split('/')
                 embed_url = sul[0] + '//' + sul[2] + '/embed/' + sul[

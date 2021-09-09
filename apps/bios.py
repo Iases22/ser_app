@@ -32,13 +32,45 @@ def app():
         '04': 'Pankaj Patel'
     }
 
-    fig = plt.figure()
+    # fig, ax = plt.subplots()
+    # #fig.subplots_adjust(hspace=0.4, wspace=0.4)
+    # for i in team.keys():
+    #     filename = f'bios/team{i}.jpg'
+    #     plt.subplot(2, 2, int(i))
+    #     #plt.title(team[i])
+    #     ax.set_title(label=team[i], fontsize=5)
+    #     image = plt.imread(filename)
+    #     plt.axis('off')
+    #     plt.imshow(image)
+    # st.pyplot(fig)
+
+    fig = plt.subplots()
     fig.subplots_adjust(hspace=0.4, wspace=0.4)
     for i in team.keys():
         filename = f'bios/team{i}.jpg'
         fig.add_subplot(2, 2, int(i))
-        plt.title(team[i])
+        plt.title(team[i], fontsize=5)
         image = plt.imread(filename)
         plt.axis('off')
         plt.imshow(image)
     st.pyplot(fig)
+
+# fig, ax = plt.subplots(figsize=(8, 1))
+#             right_side = ax.spines["right"]
+#             top_side = ax.spines['top']
+#             right_side.set_visible(False)
+#             top_side.set_visible(False)
+
+#             ax.barh(reverse_ranked_emotions,
+#                     reverse_ranked_values,
+#                     color=['r', 'y', 'g', 'b', 'c', 'm'])
+
+#             ax.set_yticklabels(reverse_ranked_emotions, fontsize=5)
+#             ax.set_xticklabels(list(range(0, 100, 10)), fontsize=5)
+
+#             for index, value in enumerate(reverse_ranked_values):
+#                 if value < 0.1:
+#                     continue
+#                 plt.text(value, index, str(value), fontsize=5)
+
+#             st.pyplot(fig)
