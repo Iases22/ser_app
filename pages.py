@@ -19,10 +19,7 @@ class MultiApp:
                                format_func=lambda app: app['title'])
         app['function']()
 
-        '''
-        # SERSA - Speech Emotion Recognizer & Song Advisor
-        '''
-
+        # sidebar style
         # side_bg = "background4.jpg"
         # side_bg_ext = "jpg"
         # st.markdown(f"""
@@ -33,7 +30,8 @@ class MultiApp:
         #     </style>
         #     """,
         #             unsafe_allow_html=True)
-        # # sidebar
+
+        # sidebar content
         st.sidebar.header('About this project')  #sidebar title
         st.sidebar.markdown(
             "**What is SERSA?**  \nSERSA was developed as a deep learning project to identify emotions from speech. SERSA takes a sample of speech as input, analyzes it based on thousands of previous examples of speech and returns the primary emotion it detected in the voice sample. Based on the ouput, SERSA then provides a list of songs scraped from the Spotify API which 'match' the emotion."
@@ -49,4 +47,3 @@ class MultiApp:
         st.sidebar.markdown(
             "*Sidenotes*:  \nEmotion recognition is an intrinsically subjective task (i.e. what one person considers angry another might consider sad). SERSA was trained on a specific set of voice samples and will therefore extrapolate based on those - thus, you may find SERSA's predictions to be odd at times - that's the nature of the game!"
         )
-        ######
