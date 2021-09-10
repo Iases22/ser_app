@@ -30,8 +30,10 @@ def app():
     # SERSA - Speech Emotion Recognizer & Song Advisor
     '''
     st.title('SERSA - Speech Emotion Recognizer & Song Advisor')
-    #st.header('*(She’s Everyone’s Reliable Song Assistant)*')
+    # st.header('*She’s Everyone’s Reliable Song Assistant!*')
+    # st.write('')
 
+    # upload file
     audio_bytes = None
     st.subheader(
         ":musical_note: Upload your voice recording here using .wav format")
@@ -41,6 +43,7 @@ def app():
         audio_bytes = uploaded_file.read()
         st.audio(audio_bytes)
 
+    # make prediction
     emoji_dict = {
         'calm': '😌',
         'happy': '😊',
@@ -90,6 +93,7 @@ def app():
 
             st.header(f'SERSA thinks you\'re **{emotion_word}** ' +
                     emoji_dict[predicted_emotion])
+            st.write('')
             """
 
             """
@@ -101,7 +105,7 @@ def app():
             reverse_ranked_values.reverse()
 
             fig, ax = plt.subplots(figsize=(8, 1))
-            right_side = ax.spines["right"]
+            right_side = ax.spines['right']
             top_side = ax.spines['top']
             right_side.set_visible(False)
             top_side.set_visible(False)
@@ -111,7 +115,7 @@ def app():
                     color=['r', 'y', 'g', 'b', 'c', 'm'])
 
             ax.set_yticklabels(reverse_ranked_emotions, fontsize=5)
-            ax.set_xticklabels(list(range(0, 100, 10)), fontsize=5)
+            plt.xticks(fontsize=5)
 
             for index, value in enumerate(reverse_ranked_values):
                 if value < 0.1:
@@ -119,6 +123,7 @@ def app():
                 plt.text(value, index, str(value), fontsize=5)
 
             st.pyplot(fig)
+            st.write('')
             """
 
             """
